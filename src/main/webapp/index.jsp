@@ -145,6 +145,12 @@
 	<div class="container mt-5">
 		<h2 class="mb-4">Danh Sách Sản Phẩm</h2>
 
+		<!-- Thông báo khi sản phẩm được thêm vào giỏ hàng -->
+		<c:if test="${not empty param.message}">
+			<div class="alert alert-success" role="alert">${param.message}
+			</div>
+		</c:if>
+
 		<div class="row">
 			<c:forEach var="sp" items="${listSanPham}">
 				<!-- Sản phẩm 1 -->
@@ -152,11 +158,15 @@
 					<div class="card product-card">
 						<img src="${sp.hinhAnh}" class="card-img-top" alt="Sản phẩm 1">
 						<div class="overlay-buttons">
-							<button class="btn btn-success btn-small-text">Thêm vào
-								giỏ hàng</button>
+							<button class="btn btn-success btn-small-text"
+								onclick="addToCart('${sp.maSanPham}')">Thêm vào giỏ
+								hàng</button>
+
+
 							<button class="btn btn-primary">
-                            <i class="fas fa-shopping-cart"> <span class="tooltip-text">Mua ngay</span></i>
-                        </button>
+								<i class="fas fa-shopping-cart"> <span class="tooltip-text">Mua
+										ngay</span></i>
+							</button>
 						</div>
 						<div class="card-body">
 							<h5 class="card-title">${sp.maSanPham}</h5>
@@ -194,6 +204,31 @@
 	<!-- Footer -->
 	<%@ include file="footer.jsp"%>
 	<!-- end Footer -->
+
+
+ <script type="text/javascript">
+        function addToCart(maSanPham) {
+            const isLoggedIn = <%= session.getAttribute("khachHang") != null %>;
+
+            if (!isLoggedIn) {
+                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+                return;
+            }
+
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = 'AddToCartServlet';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'maSanPham';
+            input.value = maSanPham;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 
 	<script type="text/javascript" src="./js/carousel.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

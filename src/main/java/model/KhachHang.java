@@ -30,6 +30,16 @@ public class KhachHang {
 		this.tenDangNhap = tenDangNhap;
 		this.matKhau = matKhau;
 	}
+	
+	
+	
+	public KhachHang(String maKhachHang) {
+		super();
+		this.maKhachHang = maKhachHang;
+	}
+
+
+
 	public KhachHang(String hoVaTen, boolean gioiTinh, String diaChi, String diaChiNhanHang, Date ngaySinh,
 			String email, String soDienThoai, boolean dangKyNhanBangTin, String tenDangNhap, String matKhau) {
 		super();

@@ -245,13 +245,44 @@ public class SanPhamDAO implements DAOInterface<SanPham> {
 
 	}
 
-	public static void main(String[] args) {
-		SanPhamDAO sp = new SanPhamDAO();
-		int pageNumber = 2; // Trang 3 (0-based index)
-		int pageSize = 2; // Số lượng sản phẩm mỗi trang
-//	        List<SanPham> sanPhamList = sp.getSanPhamByPage(pageNumber, pageSize);
-		List<SanPham> sanPhamList = sp.findBySanPhamName("đầm");
-		sanPhamList.forEach(spa -> System.out.println(spa.getTenSanPham()));
+	public SanPham selectBySanPhamId(String maSanPham) {
+		// TODO Auto-generated method stub
+		SanPham sp = null;
+		Connection con = JDBCUtils.getConnection();
+
+		try {
+			String sql = "select * from sanpham where masanpham=?;";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maSanPham);
+			System.out.println("Thực thi câu lệnh : " + ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				String maSanPham_1 = rs.getString("masanpham");
+				String tenSanPham = rs.getString("tensanpham");
+				int namSanXuat = rs.getInt("namsanxuat");
+				double giaNhap = rs.getDouble("gianhap");
+				double giaBan = rs.getDouble("giaban");
+				int soLuong = rs.getInt("soluong");
+				String moTa = rs.getString("mota");
+				String hinhAnh = rs.getString("hinhanh");
+
+				ThuongHieu maThuongHieu = new ThuongHieuDAO()
+						.selectById(new ThuongHieu(rs.getString("mathuonghieu"), null, null));
+				TheLoai maTheLoai = new TheLoaiDAO().selectById(new TheLoai(rs.getString("matheloai"), null, null));
+				sp = new SanPham(maSanPham_1, tenSanPham, namSanXuat, giaNhap, giaBan, soLuong, moTa, hinhAnh,
+						maThuongHieu, maTheLoai);
+			}
+			JDBCUtils.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return sp;
 	}
 
+	public static void main(String[] args) {
+		SanPhamDAO sp = new SanPhamDAO();
+		SanPham sanPham = sp.selectBySanPhamId("SP001");
+		System.out.println(sanPham);
+	}
 }

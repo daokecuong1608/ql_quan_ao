@@ -23,8 +23,6 @@ public class SanPhamController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
-
-//    	
     	
     	  String action = request.getParameter("action");
           String searchQuery = request.getParameter("searchQuery");

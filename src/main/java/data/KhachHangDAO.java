@@ -68,7 +68,7 @@ public class KhachHangDAO implements DAOInterface<KhachHang>{
                 Date ngaySinh = rs.getDate("ngaysinh");
                 String email = rs.getString("email");
                 String soDienThoai = rs.getString("sodienthoai");
-                boolean dangKyNhanBangTin = rs.getBoolean("dangkynhanbangtin");
+                boolean dangKyNhanBangTin = rs.getBoolean("dangkinhanbangtinnhan");
                 String tenDangNhap = rs.getString("tendangnhap");
                 String matKhau = rs.getString("matkhau");
                 khachHang = new KhachHang(maKhachHang, hoVaTen, gioiTinh, diaChi, diaChiNhanHang, ngaySinh, email, soDienThoai, dangKyNhanBangTin, tenDangNhap, matKhau);
