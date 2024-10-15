@@ -1,5 +1,5 @@
 <%@page import="model.KhachHang"%>
-<%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="javax.servlet.http.HttpSession"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -52,40 +52,45 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 				<li class="nav-item"><a class="nav-link disabled">Hết hàng</a>
 				</li>
 			</ul>
-			<form class="d-flex m-2" role="search"
-				style="margin: 10px !important;">
-				<input class="form-control me-2" type="search"
-					placeholder="Nội dung tìm kiếm" aria-label="Search">
-				<button class="btn btn-outline-success" type="submit">Tìm</button>
-				<a href="#" class="btn btn-outline-success my-2 my-sm-0 mr-3"><i
-					class="fas fa-shopping-cart fa-lg"></i></a>
 
-				<%
-				Object object = session.getAttribute("khachHang");
-				KhachHang khachHang = null;
-				if (object != null)
-					khachHang = (KhachHang) object;
-				if (khachHang == null) {
-				%>
-				<a class="btn btn-primary" href="<%=url%>/dangnhap.jsp"
-					style="white-space: nowrap;"> Đăng nhập </a>
-				<%
-				} else {
-				%>
-				<div class="row text-center">
-					<div>
-						<b>Xin chào:<%=khachHang.getHoVaTen()%></b>
-					</div>
-					<div class="row">
-						<a style="white-space: nowrap;" href="<%=url%>/login">Đăng xuất</a>
-						<div></div>
-						<%
-						}
-						%>
-					
+			<form class="d-flex m-2" role="search" action="SanPhamController"
+				method="get" style="margin: 10px !important;">
+				<input class="form-control me-2" type="search" name="searchQuery"
+					placeholder="Nội dung tìm kiếm" aria-label="Search"
+					value="${searchQuery}">
+				<button class="btn btn-outline-success" type="submit">Tìm</button>
 			</form>
-		</div>
-	</div>
+
+
+
+			<a href="#" class="btn btn-outline-success my-2 my-sm-0 mr-3"><i
+				class="fas fa-shopping-cart fa-lg"></i></a>
+
+			<%
+			Object object = session.getAttribute("khachHang");
+			KhachHang khachHang = null;
+			if (object != null)
+				khachHang = (KhachHang) object;
+			if (khachHang == null) {
+			%>
+			<a class="btn btn-primary" href="<%=url%>/dangnhap.jsp"
+				style="white-space: nowrap;"> Đăng nhập </a>
+			<%
+			} else {
+			%>
+			<div class="row text-center">
+				<div>
+					<b>Xin chào:<%=khachHang.getHoVaTen()%></b>
+				</div>
+				<div class="row">
+					<a style="white-space: nowrap;" href="<%=url%>/login">Đăng xuất</a>
+					<div></div>
+					<%
+					}
+					%>
+
+				</div>
+			</div>
 </nav>
 <!--end header-->
 

@@ -175,16 +175,15 @@ public class SanPhamDAO implements DAOInterface<SanPham> {
 	}
 
 	public List<SanPham> getSanPhamByPage(int pageNumber, int pageSize) {
-        List<SanPham> ketQua = new ArrayList<>();
-        String sql = "SELECT * FROM SanPham ORDER BY masanpham LIMIT ? OFFSET ?";
-        try (Connection con = JDBCUtils.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, pageSize);
-            ps.setInt(2, pageNumber * pageSize);
-            System.out.println("Thực thi câu lệnh : " + ps.toString());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-            	String maSanPham = rs.getString("masanpham");
+		List<SanPham> ketQua = new ArrayList<>();
+		String sql = "SELECT * FROM SanPham ORDER BY masanpham LIMIT ? OFFSET ?";
+		try (Connection con = JDBCUtils.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, pageSize);
+			ps.setInt(2, pageNumber * pageSize);
+			System.out.println("Thực thi câu lệnh : " + ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				String maSanPham = rs.getString("masanpham");
 				String tenSanPham = rs.getString("tensanpham");
 				int namSanXuat = rs.getInt("namsanxuat");
 				double giaNhap = rs.getDouble("gianhap");
@@ -200,23 +199,59 @@ public class SanPhamDAO implements DAOInterface<SanPham> {
 						maThuongHieu, maTheLoai);
 
 				ketQua.add(sp);
-            }
-            JDBCUtils.closeConnection(con);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ketQua;
-    }
-	
-	
-	
+			}
+			JDBCUtils.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+
+	public List<SanPham> findBySanPhamName(String tenSanPham) {
+		List<SanPham> ketQua = new ArrayList();
+		Connection con = JDBCUtils.getConnection();
+		try {
+			String sql = "SELECT * FROM sanpham  WHERE  tensanpham  LIKE ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "%" + tenSanPham + "%");
+			System.out.println("Thực thi câu lệnh : " + ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+
+				String maSanPham = rs.getString("masanpham");
+				String tenSanPham_2 = rs.getString("tensanpham");
+				int namSanXuat = rs.getInt("namsanxuat");
+				double giaNhap = rs.getDouble("gianhap");
+				double giaBan = rs.getDouble("giaban");
+				int soLuong = rs.getInt("soluong");
+				String moTa = rs.getString("mota");
+				String hinhAnh = rs.getString("hinhanh");
+
+				ThuongHieu maThuongHieu = new ThuongHieuDAO()
+						.selectById(new ThuongHieu(rs.getString("mathuonghieu"), null, null));
+				TheLoai maTheLoai = new TheLoaiDAO().selectById(new TheLoai(rs.getString("matheloai"), null, null));
+				SanPham sp = new SanPham(maSanPham, tenSanPham_2, namSanXuat, giaNhap, giaBan, soLuong, moTa, hinhAnh,
+						maThuongHieu, maTheLoai);
+
+				ketQua.add(sp);
+				System.out.println(sp);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return ketQua;
+
+	}
+
 	public static void main(String[] args) {
 		SanPhamDAO sp = new SanPhamDAO();
-		  int pageNumber = 2; // Trang 3 (0-based index)
-	        int pageSize = 2; // Số lượng sản phẩm mỗi trang
+		int pageNumber = 2; // Trang 3 (0-based index)
+		int pageSize = 2; // Số lượng sản phẩm mỗi trang
 //	        List<SanPham> sanPhamList = sp.getSanPhamByPage(pageNumber, pageSize);
-	        List<SanPham> sanPhamList = sp.selectAll();
-	        sanPhamList.forEach(spa -> System.out.println(spa.getTenSanPham()));
+		List<SanPham> sanPhamList = sp.findBySanPhamName("đầm");
+		sanPhamList.forEach(spa -> System.out.println(spa.getTenSanPham()));
 	}
-	
+
 }

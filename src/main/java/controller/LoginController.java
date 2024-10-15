@@ -61,7 +61,8 @@ public class LoginController extends HttpServlet {
 			// Thông tin đăng nhập không đúng, chuyển hướng lại trang đăng nhập với thông
 			// báo lỗi
 			request.setAttribute("baoLoi", "Tên đăng nhập hoặc mật khẩu không đúng!");
-			request.getRequestDispatcher("/nguoidung/dangnhap.jsp");
+			request.getRequestDispatcher("/dangnhap.jsp").forward(request, response);;
+			
 		}
 	}
 

@@ -150,16 +150,13 @@
 				<!-- Sản phẩm 1 -->
 				<div class="col-md-3">
 					<div class="card product-card">
-						<img src="${sp.hinhAnh}" class="card-img-top"
-							alt="Sản phẩm 1">
+						<img src="${sp.hinhAnh}" class="card-img-top" alt="Sản phẩm 1">
 						<div class="overlay-buttons">
 							<button class="btn btn-success btn-small-text">Thêm vào
 								giỏ hàng</button>
-							<button class="btn btn-info">
-								<i class="fas fa-eye"> <span class="tooltip-text">Xem
-										nhanh</span>
-								</i>
-							</button>
+							<button class="btn btn-primary">
+                            <i class="fas fa-shopping-cart"> <span class="tooltip-text">Mua ngay</span></i>
+                        </button>
 						</div>
 						<div class="card-body">
 							<h5 class="card-title">${sp.maSanPham}</h5>
@@ -172,12 +169,13 @@
 					</div>
 				</div>
 			</c:forEach>
-				<hr class="divider">
+			<hr class="divider">
 			<nav>
 				<ul class="pagination justify-content-center">
 					<c:forEach var="i" begin="0" end="${totalPages - 1}">
 						<li class="page-item ${currentPage == i ? 'active' : ''}"><a
-							class="page-link" href="<%=url_1%>/SanPhamController?page=${i}">${i + 1}</a>
+							class="page-link"
+							href="<%=url_1%>/SanPhamController?action=listSanPham&page=${i}">${i + 1}</a>
 						</li>
 					</c:forEach>
 				</ul>
